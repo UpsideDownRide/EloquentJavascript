@@ -131,5 +131,18 @@ Write a function arrayToList that builds up a list structure like the one shown 
 [1, 2, 3] as argument. Also write a listToArray function that produces an array from a list. Then add a helper function prepend, which takes an element and a list and creates a new list that adds the element to the front of the input list, and nth, which takes a list and a number and returns
 the element at the given position in the list (with zero referring to the first element) or undefined when there is no such element.
 
+```js
+const arrayToList = (array) => {
+    const listValue = array.length === 0 ? null : array[0] 
+    const restValue = array.length <= 1 ? null : arrayToList(array.slice(1))
+    return {value: listValue, rest: restValue}
+}
 
+const listToArray = (list) => {
+    const head = [list["value"]] || [] 
+    return list["rest"] ? head.concat(listToArray(list["rest"])) : head
+}
+```
+
+### 8 Deep Comparison
 
