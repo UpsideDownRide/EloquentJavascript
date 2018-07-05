@@ -78,7 +78,7 @@ const boardPrinter = (size) => {
             .map(line => console.log(line))
 }
 ```
-### 4 Beancounting
+## 4 Beancounting
 You can get the Nth character, or letter, from a string by writing
 "string"[N]. The returned value will be a string containing only one character (for example, "b"). The first character has position 0, which causes the last one to be found at position string.length - 1. In other words, a two-character string has length
 2, and its characters have positions 0 and 1. Write a function countBs that takes a string as its only argument and returns a number that indicates how many uppercase “B” characters there are in the string. Next, write a function called countChar that behaves like countBs, except it takes a second argument that indicates the character that is to be counted (rather than counting only uppercase “B” characters). Rewrite
@@ -94,7 +94,7 @@ const countChar = (string, charToCount, count = 0) => {
         countChar(t, charToCount, count))
 }
 ```
-### 5 The sum of a range
+## 5 The sum of a range
 The introduction of this book alluded to the following as a nice way to compute
 the sum of a range of numbers: console.log(sum(range(1, 10)));
 Write a range function that takes two arguments, start and end, and returns an array containing all the numbers from start up to (and including) end. Next, write a sum function that takes an array of numbers and returns the sum of these numbers.  Run the example program and see whether it does
@@ -112,7 +112,7 @@ const sum = (array) => {
 }
 ```
 
-### 6 Reversing an array
+## 6 Reversing an array
 Arrays have a reverse method that changes the array by inverting the order in which its elements appear. For this exercise, write two functions, reverseArray and reverseArrayInPlace. The first,reverseArray, takes an array as argument and produces a new array that has the same elements in the inverse order. The second, reverseArrayInPlace, does what the reverse method does: it modifies the array given as argument by reversing its elements. Neither may use the standard reverse method.
 
 ```js
@@ -123,7 +123,7 @@ const reverseArray = (array) => {
 }
 ```
 
-### 7 Array to List
+## 7 Array to List
 
 ![](list-picture.png)
 
@@ -144,7 +144,7 @@ const listToArray = (list) => {
 }
 ```
 
-### 8 Deep Comparison
+## 8 Deep Comparison
 
 Write a function deepEqual that takes two values and returns true only if they are the same value or are objects with the same properties, where the values of the properties are equal when compared with a recursive call to deepEqual.
 
@@ -165,7 +165,7 @@ const deepEqual = (e1, e2) => {
 }
 ```
 
-### 9 Flattening
+## 9 Flattening
 
 Use the reduce method in combination with the concat method to “flatten” an array of arrays into a single array that has all the elements of the original arrays.
 
@@ -175,7 +175,7 @@ const flattenArray = (arr) => {
         Array.isArray(el) ? res.concat(flattenArray(el)) : res.concat(el), [])
 }
 ```
-### 10 Your Own Loop
+## 10 Your Own Loop
 Write a higher-order function loop that provides something like a for loop statement. It takes a value, a test function, an update function, and a body function. Each iteration, it first runs the test function on the current loop value and stops if that returns false. Then it calls the body function, giving it the current value. Finally, it calls the update function to create a new value and starts from the beginning.
 
 ```js
@@ -187,7 +187,7 @@ const myLoop = (val, test, update, f) => {
     else return undefined
 }
 ```
-### 11 Everything
+## 11 Everything
 
 Analogous to the some method, arrays also have an every method. This one returns true when the given function returns true for every element in the array. In a way, some is a version of the || operator that acts on arrays, and every is like the && operator. Implement every as a function that takes an array and a predicate function as parameters. 
 
@@ -196,7 +196,7 @@ const every = (f, arr) => {
     return arr.reduce((acc, el) => f(el) && acc, true)
 }
 ```
-### 12 Vector Type
+## 12 Vector Type
 Write a class Vec that represents a vector in two-dimensional space. It takes x and y parameters (numbers), which it should save to properties of the same name.
 Give the Vec prototype two methods, plus and minus , that take another vector as a parameter and return a new vector that has the sum or difference of the two vectors’ (this and the parameter) x and y values. 
 Add a getter property length to the prototype that computes the length of the vector—that is, the distance of the point (x, y) from the origin (0, 0).
@@ -216,7 +216,7 @@ class Vec {
     length() { return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)) }
 }
 ```
-### 13 Retry
+## 13 Retry
 
 Say you have a function primitiveMultiply that in 20 percent of cases mul- tiplies two numbers and in the other 80 percent of cases raises an exception of type MultiplicatorUnitFailure . Write a function that wraps this clunky function and just keeps trying until a call succeeds, after which it returns the result.
 Make sure you handle only the exceptions you are trying to handle.
@@ -249,7 +249,7 @@ const retry = (fun, errorToCheck) => (...args) => {
 const retryPrimitive = retry(primitiveMultiply, MultiplicatorUnitFailure)
 ```
 
-### 14 Build a table
+## 14 Build a table
 An HTML table is built with the following tag structure:
 ```html
 <table>
@@ -297,7 +297,7 @@ const generateTable = arr => {
 }
 ```
 
-### 15 Elements by tag name
+## 15 Elements by tag name
 
 The `document.getElementsByTagName` method returns all child elements with a given tag name. Implement your own version of this as a function that takes a node and a string (the tag name) as arguments and returns an array containing all descendant element nodes with the given tag name. To find the tag name of an element, use its `nodeName` property. But note that this will return the tag name in all uppercase. Use the toLowerCase or toUpperCase string methods to compensate for this.
 
@@ -315,7 +315,7 @@ const getByTag = (node, tag) => {
 }
 ```
 
-### 16 Balloon
+## 16 Balloon
 
 Write a page that displays a balloon (using the balloon emoji, 🎈). When you press the up arrow, it should inflate (grow) 10 percent, and when you press the down arrow, it should deflate (shrink) 10 percent. You can control the size of text (emoji are text) by setting the font-size CSS property ( style.fontSize) on its parent element. Remember to include a unit in the value—for example, pixels ( 10px). The key names of the arrow keys are "ArrowUp" and "ArrowDown".
 Make sure the keys change only the balloon, without scrolling the page. When that works, add a feature where, if you blow up the balloon past a certain size, it explodes. In this case, exploding means that it is replaced with an 💥  emoji, and the event handler is removed (so that you can’t inflate or deflate the explosion).
@@ -386,7 +386,7 @@ window.addEventListener("keydown", arrowDownHandler)
 </html>
 ```
 
-### 17 Mouse Trail
+## 17 Mouse Trail
 
 In this exercise, I want you to implement a mouse trail.  Use absolutely positioned `<div>` elements with a fixed size and background color (refer to the code in the “Mouse Clicks” section for an example). Create a bunch of such elements and, when the mouse moves, display them in the wake of the mouse pointer.
 
@@ -419,7 +419,7 @@ window.addEventListener("mousemove", event => {
 })
 ```
 
-### 18 Tabs
+## 18 Tabs
 
 Tabbed panels are widely used in user interfaces.  They allow you to select an interface panel by choosing from a number of tabs “sticking out” above an element. In this exercise you must implement a simple tabbed interface. Write a function, asTabs , that takes a DOM node and creates a tabbed interface showing the child elements of that node. It should insert a list of `<button>` elements at the top of the node, one for each child element, containing text retrieved from the data-tabname attribute of the child. All but one of the original children should be hidden (given a display style of none ). The currently visible node can be selected by clicking the buttons. When that works, extend it to style the button for the currently selected tab differently so that it is obvious which tab is selected.
 
@@ -471,3 +471,55 @@ const asTabs = (node) => {
 }
 ```
 
+## 19 Content negotiation
+
+The URL http://eloquentjavascript.net/author is configured to respond with either plaintext, HTML, or JSON, depending on what the client asks for. These formats are identified by the standardized media types text/plain, text/html, and application/json. Send requests to fetch all three formats of this resource
+
+```js
+const url = 'http://eloquentjavascript.net/author'
+const types = ['text/plain', 'text/html', 'application/json', 'application/unicorn']
+
+types.forEach(type => fetch(url, {headers: {Accept: type}})
+                .then(res => res.text())
+                .then(txt => console.log(txt)))
+                .catch(e => console.log(e))
+
+```
+
+## 20 Javascript workbench
+
+Build an interface that allows people to type and run pieces of JavaScript code.
+
+```html
+<textarea style="width: 100%; height: 200px;"></textarea>
+<button onclick="buttonHandler()">Run it!</button>
+<script>
+    const program = document.querySelector("textarea")
+    const buttonHandler = () => Function("", program.value)()
+</script>
+```
+
+## 21 Search tool
+
+Write a Node script that can be run from the command line and acts somewhat like grep. It treats its first command line argument as a regular expression and treats any further arguments as files to search. It should output the names of any file whose content matches the regular expression. When that works, extend it so that when one of the arguments is a directory, it searches through all files in that directory and its subdirectories.
+
+```js
+const [fs, path] = [require('fs'), require('path')]
+const args = process.argv.slice(2)
+const [regexString, ...filesAndDirectories] = args
+const regex = new RegExp(regexString)
+
+const getFiles = (directory) => {
+    return fs.readdirSync(directory)
+        .map(el => directory + "\\" + el)
+        .reduce(dirReducer, [])
+}
+const isDirectory = (el) => fs.lstatSync(el).isDirectory()
+const dirReducer = (res, el) => isDirectory(el) ? res.concat(getFiles(el)) : res.concat(el)
+const files = filesAndDirectories.map(el => path.resolve(el)).reduce(dirReducer, [])
+
+const checkFile = (fileName) => fs.readFileSync(fileName, "utf8").match(regex) ? fileName : []
+const result = files.reduce((res, el) => res.concat(checkFile(el)), [])
+
+result.forEach(el => console.log(el))
+```
