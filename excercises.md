@@ -317,7 +317,8 @@ const getByTag = (node, tag) => {
 
 ### 16 Balloon
 
-Write a page that displays a balloon (using the balloon emoji, 🎈). When you press the up arrow, it should inflate (grow) 10 percent, and when you press the down arrow, it should deflate (shrink) 10 percent. You can control the size of text (emoji are text) by setting the font-size CSS property ( style.fontSize) on its parent element. Remember to include a unit in the value—for example, pixels ( 10px). The key names of the arrow keys are "ArrowUp" and "ArrowDown" . Make sure the keys change only the balloon, without scrolling the page. When that works, add a feature where, if you blow up the balloon past a certain size, it explodes. In this case, exploding means that it is replaced with an 💥  emoji, and the event handler is removed (so that you can’t inflate or deflate the explosion).
+Write a page that displays a balloon (using the balloon emoji, 🎈). When you press the up arrow, it should inflate (grow) 10 percent, and when you press the down arrow, it should deflate (shrink) 10 percent. You can control the size of text (emoji are text) by setting the font-size CSS property ( style.fontSize) on its parent element. Remember to include a unit in the value—for example, pixels ( 10px). The key names of the arrow keys are "ArrowUp" and "ArrowDown".
+Make sure the keys change only the balloon, without scrolling the page. When that works, add a feature where, if you blow up the balloon past a certain size, it explodes. In this case, exploding means that it is replaced with an 💥  emoji, and the event handler is removed (so that you can’t inflate or deflate the explosion).
 
 ***balloon.js***
 ```js
@@ -416,5 +417,57 @@ window.addEventListener("mousemove", event => {
     trailTimeouts[trailIndex] = setTimeout(() => sparkle.style.display = "none", 500)
     trailIndex = (trailIndex + 1) % sparkles.length
 })
+```
+
+### 18 Tabs
+
+Tabbed panels are widely used in user interfaces.  They allow you to select an interface panel by choosing from a number of tabs “sticking out” above an element. In this exercise you must implement a simple tabbed interface. Write a function, asTabs , that takes a DOM node and creates a tabbed interface showing the child elements of that node. It should insert a list of `<button>` elements at the top of the node, one for each child element, containing text retrieved from the data-tabname attribute of the child. All but one of the original children should be hidden (given a display style of none ). The currently visible node can be selected by clicking the buttons. When that works, extend it to style the button for the currently selected tab differently so that it is obvious which tab is selected.
+
+```js
+const createButton = (name) => {
+    const button = document.createElement("BUTTON")
+    button.appendChild(document.createTextNode(name))
+    button.onclick = tabButtonOnClick(name, button)
+    button.setAttribute("button-tabname", name)
+    return button
+}
+
+const tabButtonOnClick = (name, button) => () => {
+    displayTab(name, button)
+    styleTabButtons(name, button)
+}
+
+const styleTabButtons = (name, button) => {
+    console.log(name, button)
+    Array(...button.parentNode.childNodes)
+        .filter(hasAttribute("button-tabname"))
+        .forEach(btn => btn.getAttribute("button-tabname") === name ? btn.style.background = "green" : btn.style.background = "red")
+}
+
+const displayTab = (name, button) => {
+    Array(...button.parentNode.childNodes)
+        .filter(hasAttribute("data-tabname"))
+        .forEach(div => div.getAttribute("data-tabname") === name ? div.style.display = "block" : div.style.display = "none")
+}
+
+const hasAttribute = (name) => (node) => node.hasAttribute ? node.hasAttribute(name) : false
+const hasTag = (name) => (node) => node.tagName === name
+
+const createButtons = (node) => {
+    return Array(...node.childNodes)
+        .filter(hasAttribute("data-tabname"))
+        .map(el => createButton(el.getAttribute("data-tabname")));
+}
+
+const setInitialVisibility = (node) => {
+    return Array(...node.childNodes).filter(hasTag("DIV"))
+        .forEach((node, i) => i === 0 ? node.style.display = "block" : node.style.display = "none");
+}
+
+const asTabs = (node) => {
+    const buttons = createButtons(node)
+    buttons.reverse().forEach(button => node.insertBefore(button, node.firstChild))
+    setInitialVisibility(node);
+}
 ```
 
