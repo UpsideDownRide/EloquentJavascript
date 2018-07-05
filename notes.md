@@ -81,3 +81,55 @@ console.log("Me first!");
 
 An async function is a function that implicitly returns a promise and that can, in its body,
 await other promises
+
+### Query selectors
+
+* .class
+* \#element (by unique id)
+* p#main.a.b - p elements with id of main and classes a and b
+* p > a is all a elements that are direct children of p
+* p a applies to all a tags inside p regardless if they are direct or indirect children
+
+`querySelectorAll` method is defined on document object and element nodes. Example of count function:
+```js
+const count = selector => document.querySelectorAll(selector).length
+```
+
+### Events
+
+`.addEventListener` takes event type and a function to execute on this event. There is also `.removeEventListener`. Difference between onclick and addEventListener with "click" is that multiple listeners can be added to a node. Event handler functions are passed an event object which allows to get additional information about the event. For example which mouse button was pressed. Events propagate upwards to parents of nodes, this propagation can be stopped with `event.stopPropagation`
+Default actions (ie context menu on right click) can be prevented with `event.preventDefault`. Touch events are separate - touchstart, touchmove and touchend. Since multiple touch points can be registered they are being hold in array-like object with coordinates. There are also separate scroll events. Focus events get fired when respective elements gain focus (ie input field) and blur event is fired when element loses focus. Those events do not propagate. Another class of events that do not propagate are load events.
+
+To avoid boggling down page with too much stuff to run concurrently resulting in event loop being held back by slow computations jobs can be delegated to workers. The code for worker should be put in a separate file.
+
+```js
+// squareworker.js
+addEventListener("message", event => {
+postMessage(event.data * event.data);
+});
+// code in page
+let squareWorker = new Worker("code/squareworker.js");
+squareWorker.addEventListener("message", event => {
+console.log("The worker responded:", event.data);
+});
+squareWorker.postMessage(10);
+squareWorker.postMessage(24);
+```
+
+##### Debouncing
+
+To avoid firing too many events (for example on scroll or mousemove) or to do something consuming on such events several debouncing techniques can be employed.
+
+```js
+<textarea>Type something here...</textarea>
+<script>
+    let textarea = document.querySelector("textarea");
+    let timeout;
+    textarea.addEventListener("input", () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => console.log("Typed!"), 500);
+    });
+</script>
+```
+
+A slight modification of above can also be used to fire an event with certain frequency when it occurs.
