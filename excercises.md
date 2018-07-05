@@ -23,7 +23,7 @@ triangle:
 const printTree = (char) => {
     console.log(char)
     const addedChar = char.concat(char.charAt(0))
-    addedChar.length <= 7 ? h(newChar) : undefined
+    addedChar.length <= 7 ? printTree(addedChar) : undefined
 }
 ```
 
@@ -251,7 +251,7 @@ const retryPrimitive = retry(primitiveMultiply, MultiplicatorUnitFailure)
 
 ### 14 Build a table
 An HTML table is built with the following tag structure:
-```
+```html
 <table>
     <tr>
         <th>name</th>
@@ -265,8 +265,8 @@ An HTML table is built with the following tag structure:
     </tr>
 </table>
 ```
-For each row , the <table> tag contains a <tr> tag. Inside of these <tr> tags, we can put cell elements: either heading cells (<th>) or regular cells (<td>).
-Given a data set of mountains, an array of objects with name , height , and place properties, generate the DOM structure for a table that enumerates the objects. It should have one column per key and one row per object, plus a header row with <th> elements at the top, listing the column names. 
+For each row , the `<table>` tag contains a `<tr>` tag. Inside of these `<tr>` tags, we can put cell elements: either heading cells (`<th>`) or regular cells (`<td>`).
+Given a data set of mountains, an array of objects with name , height , and place properties, generate the DOM structure for a table that enumerates the objects. It should have one column per key and one row per object, plus a header row with `<th>` elements at the top, listing the column names. 
 Write this so that the columns are automatically derived from the objects, by taking the property names of the first object in the data.
 Add the resulting table to the element with an id attribute of "mountains" so that it becomes visible in the document.
 Once you have this working, right-align cells that contain number values by setting their style.textAlign property to "right".
@@ -313,5 +313,108 @@ const getByTag = (node, tag) => {
     drillDown(node, upperTag)
     return results
 }
+```
+
+### 16 Balloon
+
+Write a page that displays a balloon (using the balloon emoji, 🎈). When you press the up arrow, it should inflate (grow) 10 percent, and when you press the down arrow, it should deflate (shrink) 10 percent. You can control the size of text (emoji are text) by setting the font-size CSS property ( style.fontSize) on its parent element. Remember to include a unit in the value—for example, pixels ( 10px). The key names of the arrow keys are "ArrowUp" and "ArrowDown" . Make sure the keys change only the balloon, without scrolling the page. When that works, add a feature where, if you blow up the balloon past a certain size, it explodes. In this case, exploding means that it is replaced with an 💥  emoji, and the event handler is removed (so that you can’t inflate or deflate the explosion).
+
+***balloon.js***
+```js
+const [BALLOON_ID, INC, DEC, EXPLOSION_SIZE] = ["cbal", 2, -2, 100]
+
+const getStyleProperty = (elementId, prop) => window.getComputedStyle(document.getElementById(elementId)).getPropertyValue(prop)
+const fontSizeToNumeric = (str) => Number(str.replace(/\D/g, ""))
+const getFontSize = (elementId) => fontSizeToNumeric(getStyleProperty(elementId, "font-size")) 
+const changeFontSize = (elementId, delta) => {
+    const currentFontSize = getFontSize(elementId)
+    document.getElementById(elementId).style.fontSize = currentFontSize + delta
+}
+
+const arrowUpHandler = event => {
+    if (event.key == "ArrowUp") {
+        event.preventDefault()
+        changeFontSize(BALLOON_ID, INC)
+        if (getFontSize(BALLOON_ID) >= EXPLOSION_SIZE) {
+            explodeBalloon(BALLOON_ID) 
+        }
+    }
+}
+const arrowDownHandler = event => {
+    if (event.key == "ArrowDown") {
+        event.preventDefault()
+        changeFontSize(BALLOON_ID, DEC)
+    }
+}
+
+const explodeBalloon = (elementId) => {
+    document.getElementById(elementId).textContent = "💥"
+    window.removeEventListener("keydown", arrowUpHandler)
+    window.removeEventListener("keydown", arrowDownHandler)
+}
+
+window.addEventListener("keydown", arrowUpHandler)
+window.addEventListener("keydown", arrowDownHandler)
+```
+***style.css***
+```css
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+#cbal {
+    font-size: 40px;
+}
+```
+***index.html***
+```html
+<html>
+    <head>
+        <title>Exploding balloon!</title>
+        <link rel="stylesheet" href="style.css">
+        <script type='text/javascript' src='balloon.js'></script>
+    </head>
+    <body>
+        <div id="cbal" class="center-screen">🎈</div>
+    </body>
+</html>
+```
+
+### 17 Mouse Trail
+
+In this exercise, I want you to implement a mouse trail.  Use absolutely positioned `<div>` elements with a fixed size and background color (refer to the code in the “Mouse Clicks” section for an example). Create a bunch of such elements and, when the mouse moves, display them in the wake of the mouse pointer.
+
+```js
+const buildSparkle = (elementId) => {
+    const div = document.createElement("DIV")
+    const spark = document.createTextNode("🌟")
+    div.appendChild(spark)
+    div.style.position = "absolute"
+    div.style.cursor = "default"
+    div.style.display = "none"
+    div.id = elementId
+    return div
+}
+
+const SPARKLE_IDS = Array(5).fill().map((_, i) => "sparkle-" + i)
+
+const sparkles = SPARKLE_IDS.map(el => buildSparkle(el))
+sparkles.forEach(el => document.body.appendChild(el))
+
+let [trailTimeouts, trailIndex] = [Array(sparkles.length), 0]
+
+window.addEventListener("mousemove", event => {
+    const sparkle = sparkles[trailIndex]
+    sparkle.style.display = "block"
+    sparkle.style.left = Math.round(event.pageX + 15)
+    sparkle.style.top = Math.round(event.pageY + 15)
+    trailTimeouts[trailIndex] = setTimeout(() => sparkle.style.display = "none", 500)
+    trailIndex = (trailIndex + 1) % sparkles.length
+})
 ```
 
